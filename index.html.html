@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>منصة خدماتي • مصر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* ============================================================
+           جميع الأنماط
+           ============================================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f0f4ff 0%, #dce3f0 100%);
+            padding: 20px;
+        }
+
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 45px 40px 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-box .logo-icon {
+            font-size: 52px;
+            color: #2563eb;
+            margin-bottom: 8px;
+        }
+
+        .login-box h2 {
+            font-size: 24px;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .login-box p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .login-box .input-group {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .login-box .input-group input {
+            width: 100%;
+            padding: 15px 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: 0.3s;
+            background: #f8fafc;
+            text-align: center;
+            direction: ltr;
+        }
+
+        .login-box .input-group input:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .login-box .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 4px;
+        }
+
+        .login-box .login-btn:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+        }
+
+        .login-box .error-msg {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .login-box .error-msg.show {
+            display: block;
+        }
+
+        .main-content {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+            border-radius: 20px;
+            padding: 12px 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .navbar .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .navbar .logo-area .logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .navbar .logo-area .logo-text span {
+            color: #2563eb;
+        }
+
+        .animated-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+            animation: logoFloat 3s ease-in-out infinite;
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        @keyframes logoFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                border-radius: 16px;
+            }
+            25% {
+                transform: translateY(-8px) rotate(3deg);
+                border-radius: 20px 10px 20px 10px;
+            }
+            50% {
+                transform: translateY(0) rotate(0deg);
+                border-radius: 16px;
+            }
+            75% {
+                transform: translateY(8px) rotate(-3deg);
+                border-radius: 10px 20px 10px 20px;
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+                border-radius: 16px;
+            }
+        }
+
+        .navbar .nav-icons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar .nav-icons a,
+        .navbar .nav-icons button {
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #1e293b;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .navbar .nav-icons a:hover,
+        .navbar .nav-icons button:hover {
+            background: #2563eb;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-icons .whatsapp {
+            background: #25D366;
+            color: #fff;
+            border: none;
+        }
+
+        .navbar .nav-icons .whatsapp:hover {
+            background: #1da851;
+        }
+
+        .navbar .nav-icons .logout {
+            background: #dc2626;
+            color: #fff;
+            border: none;
+        }
+
+        .navbar .nav-icons .logout:hover {
+            background: #b91c1c;
+        }
+
+        .navbar .nav-icons .pricing-btn {
+            background: #7c3aed;
+            color: #fff;
+            border: none;
+        }
+
+        .navbar .nav-icons .pricing-btn:hover {
+            background: #6d28d9;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 30px 0 16px;
+            padding-right: 16px;
+            border-right: 5px solid #2563eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: all 0.35s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.96);
+        }
+
+        .service-card .card-image {
+            width: 100%;
+            height: 100px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card .card-image .overlay-text {
+            position: absolute;
+            bottom: 6px;
+            right: 10px;
+            font-size: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 12px;
+            border-radius: 30px;
+            color: #fff;
+        }
+
+        .service-card .price-tag {
+            background: #2563eb;
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            margin: 4px 0 8px;
+        }
+
+        .img-blue {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        }
+        .img-green {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+        }
+        .img-purple {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+        }
+        .img-orange {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+        .img-red {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+        .img-teal {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+        }
+        .img-pink {
+            background: linear-gradient(135deg, #db2777, #be185d);
+        }
+        .img-indigo {
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+        }
+        .img-cyan {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+        }
+        .img-rose {
+            background: linear-gradient(135deg, #e11d48, #be123c);
+        }
+        .img-amber {
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+        }
+        .img-lime {
+            background: linear-gradient(135deg, #65a30d, #4d7c0f);
+        }
+
+        .service-card h3 {
+            font-size: 15px;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .service-card .btn-service {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .service-card .btn-service:hover {
+            background: #1d4ed8;
+            transform: scale(1.02);
+        }
+
+        .service-card .btn-whatsapp {
+            background: #25D366;
+        }
+        .service-card .btn-whatsapp:hover {
+            background: #1da851;
+        }
+
+        .service-card .btn-service .fa-arrow-left {
+            margin-right: 4px;
+        }
+
+        /* ============================================================
+           تفريعات الجامعات
+           ============================================================ */
+        .university-section {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+
+        .university-section .univ-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .university-section .univ-grid a {
+            display: block;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            color: #1e293b;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.3s;
+            border-right: 3px solid transparent;
+            text-align: right;
+        }
+
+        .university-section .univ-grid a:hover {
+            background: #fff;
+            border-right-color: #2563eb;
+            transform: translateX(-4px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .university-section .univ-category-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 12px 0 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .university-section .univ-category-title:first-of-type {
+            margin-top: 0;
+        }
+
+        .toggle-univ-btn {
+            background: transparent;
+            border: 1px dashed #94a3b8;
+            color: #334155;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+
+        .toggle-univ-btn:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .university-section .univ-content {
+            display: none;
+        }
+
+        .university-section .univ-content.active {
+            display: block;
+        }
+
+        /* سجل الخدمات */
+        .log-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 18px 22px;
+            margin-top: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .log-section .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .log-section .log-header h3 {
+            font-size: 18px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .log-section .log-header .log-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .log-section .log-header .log-actions button {
+            padding: 5px 12px;
+            border-radius: 30px;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .log-section .log-header .log-actions .btn-delete-log {
+            background: #dc2626;
+            color: #fff;
+        }
+        .log-section .log-header .log-actions .btn-delete-log:hover {
+            background: #b91c1c;
+        }
+        .log-section .log-header .log-actions .btn-refresh-log {
+            background: #2563eb;
+            color: #fff;
+        }
+        .log-section .log-header .log-actions .btn-refresh-log:hover {
+            background: #1d4ed8;
+        }
+        .log-section .log-header .log-actions .btn-export-log {
+            background: #16a34a;
+            color: #fff;
+        }
+        .log-section .log-header .log-actions .btn-export-log:hover {
+            background: #15803d;
+        }
+        .log-section .log-header .log-actions .btn-daily-report {
+            background: #7c3aed;
+            color: #fff;
+        }
+        .log-section .log-header .log-actions .btn-daily-report:hover {
+            background: #6d28d9;
+        }
+
+        .log-table-wrap {
+            overflow-x: auto;
+            max-height: 350px;
+            overflow-y: auto;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 500px;
+        }
+
+        .log-table th {
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 8px 12px;
+            text-align: right;
+            font-weight: 700;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .log-table td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1e293b;
+        }
+
+        .log-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .log-table .empty-msg {
+            text-align: center;
+            color: #94a3b8;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        .badge-count {
+            background: #dc2626;
+            color: #fff;
+            font-size: 11px;
+            padding: 1px 9px;
+            border-radius: 30px;
+            margin-right: 4px;
+        }
+
+        .pricing-modal,
+        .report-modal,
+        .delete-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .pricing-modal.active,
+        .report-modal.active,
+        .delete-modal.active {
+            display: flex;
+        }
+
+        .pricing-box,
+        .report-box,
+        .del-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .pricing-box .pricing-header,
+        .report-box .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .pricing-box .pricing-header h3,
+        .report-box .report-header h3 {
+            font-size: 22px;
+            color: #0f172a;
+        }
+
+        .pricing-box .pricing-header .close-pricing,
+        .report-box .report-header .close-report {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: 0.3s;
+        }
+
+        .pricing-box .pricing-header .close-pricing:hover,
+        .report-box .report-header .close-report:hover {
+            color: #dc2626;
+        }
+
+        .pricing-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-item .service-name {
+            font-weight: 600;
+            color: #0f172a;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .pricing-item .service-price-input {
+            width: 100px;
+            padding: 6px 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: center;
+            direction: ltr;
+        }
+
+        .pricing-item .service-price-input:focus {
+            border-color: #2563eb;
+            outline: none;
+        }
+
+        .pricing-item .price-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .pricing-item .price-actions button {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pricing-item .price-actions .save-price {
+            background: #16a34a;
+            color: #fff;
+        }
+        .pricing-item .price-actions .save-price:hover {
+            background: #15803d;
+        }
+        .pricing-item .price-actions .reset-price {
+            background: #dc2626;
+            color: #fff;
+        }
+        .pricing-item .price-actions .reset-price:hover {
+            background: #b91c1c;
+        }
+
+        .pricing-box .add-service-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-box .add-service-area input,
+        .pricing-box .add-service-area select {
+            padding: 10px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .pricing-box .add-service-area input:focus,
+        .pricing-box .add-service-area select:focus {
+            border-color: #2563eb;
+            outline: none;
+        }
+
+        .pricing-box .add-service-area button {
+            padding: 10px 20px;
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pricing-box .add-service-area button:hover {
+            background: #1d4ed8;
+        }
+
+        .report-box .report-summary {
+            background: #f1f5f9;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+        }
+
+        .report-box .report-summary .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 15px;
+        }
+
+        .report-box .report-summary .summary-item.total {
+            font-weight: 700;
+            font-size: 18px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 8px;
+            margin-top: 4px;
+        }
+
+        .report-box .report-details table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .report-box .report-details th {
+            background: #f1f5f9;
+            padding: 6px 10px;
+            text-align: right;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .report-box .report-details td {
+            padding: 5px 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .del-box {
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .del-box h3 {
+            font-size: 22px;
+            color: #dc2626;
+            margin-bottom: 6px;
+        }
+
+        .del-box p {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .del-box input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 20px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            direction: ltr;
+        }
+
+        .del-box input:focus {
+            border-color: #dc2626;
+            outline: none;
+        }
+
+        .del-box .del-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .del-box .del-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .del-box .del-actions .del-confirm {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .del-box .del-actions .del-confirm:hover {
+            background: #b91c1c;
+        }
+
+        .del-box .del-actions .del-cancel {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .del-box .del-error {
+            color: #dc2626;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+
+        #calcModal .pricing-box {
+            max-width: 380px;
+        }
+
+        #calcDisplay {
+            width: 100%;
+            padding: 16px;
+            font-size: 28px;
+            text-align: right;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            margin-bottom: 12px;
+            background: #f8fafc;
+            font-weight: 600;
+            direction: ltr;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .calc-grid button {
+            padding: 16px;
+            font-size: 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #f1f5f9;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .calc-grid button:hover {
+            background: #e2e8f0;
+            transform: scale(1.05);
+        }
+
+        .calc-grid .op {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .calc-grid .op:hover {
+            background: #1d4ed8;
+        }
+
+        .calc-grid .eq {
+            background: #16a34a;
+            color: #fff;
+            grid-column: span 2;
+        }
+
+        .calc-grid .eq:hover {
+            background: #15803d;
+        }
+
+        .calc-grid .clr {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .calc-grid .clr:hover {
+            background: #b91c1c;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 35px;
+            padding: 18px 0;
+            color: #94a3b8;
+            font-size: 13px;
+            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0f172a;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast-message.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-message.success {
+            background: #16a34a;
+        }
+
+        .toast-message.error {
+            background: #dc2626;
+        }
+
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px;
+            }
+            .navbar .logo-area {
+                justify-content: center;
+            }
+            .navbar .nav-icons {
+                justify-content: center;
+            }
+            .navbar .nav-icons a,
+            .navbar .nav-icons button {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            .login-box {
+                padding: 25px 20px;
+            }
+            .pricing-box {
+                padding: 18px;
+            }
+            .log-section {
+                padding: 12px;
+            }
+            .log-table {
+                font-size: 12px;
+                min-width: 350px;
+            }
+            .animated-logo {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .pricing-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .pricing-item .service-price-input {
+                width: 100%;
+            }
+            .toast-message {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                padding: 12px 18px;
+                font-size: 13px;
+            }
+            .university-section .univ-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .university-section .univ-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    شاشة تسجيل الدخول
+    ============================================================ -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="logo-icon"><i class="fas fa-shield-alt"></i></div>
+            <h2>تسجيل الدخول</h2>
+            <p>أدخل بياناتك للوصول إلى لوحة التحكم</p>
+
+            <div class="input-group">
+                <input type="text" id="loginUser" placeholder="رقم الموبايل" value="01032720236" />
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="loginPass" placeholder="كلمة المرور" />
+            </div>
+
+            <button class="login-btn" onclick="handleLogin()">
+                <i class="fas fa-sign-in-alt"></i> دخول
+            </button>
+
+            <div class="error-msg" id="loginError">⚠️ رقم الموبايل أو كلمة المرور غير صحيحة</div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    المحتوى الرئيسي
+    ============================================================ -->
+    <div class="main-content" id="mainContent">
+
+        <!-- الشريط العلوي -->
+        <nav class="navbar">
+            <div class="logo-area">
+                <div class="animated-logo"><i class="fas fa-crown"></i></div>
+                <div class="logo-text">خدماتي <span>•</span> مصر</div>
+            </div>
+            <div class="nav-icons">
+                <button onclick="openCalculator()" title="آلة حاسبة">
+                    <i class="fas fa-calculator"></i> حاسبة
+                </button>
+                <button class="pricing-btn" onclick="openPricing()">
+                    <i class="fas fa-tags"></i> تسعير
+                </button>
+                <a href="https://wa.me/2010xxxxxxxx" target="_blank" class="whatsapp">
+                    <i class="fab fa-whatsapp"></i> واتساب
+                </a>
+                <button onclick="handleLogout()" class="logout">
+                    <i class="fas fa-sign-out-alt"></i> خروج
+                </button>
+            </div>
+        </nav>
+
+        <!-- ============================================================
+        الخدمات (زي كود الجامعات بالضبط)
+        ============================================================ -->
+        <div id="servicesContainer"></div>
+
+        <!-- ============================================================
+        تفريعات الجامعات (جميع الجامعات الخاصة والأهلية)
+        ============================================================ -->
+        <div class="university-section">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                <h2 class="section-title" style="margin:0;border-right-color:#7c3aed;">
+                    <i class="fas fa-university" style="color:#7c3aed;"></i> الجامعات الخاصة والأهلية
+                </h2>
+                <button class="toggle-univ-btn" onclick="toggleUniversities()">
+                    <i class="fas fa-chevron-down" id="univToggleIcon"></i> عرض الجامعات
+                </button>
+            </div>
+            <div class="univ-content" id="univContent">
+                <!-- جامعات خاصة -->
+                <div class="univ-category-title"><i class="fas fa-star" style="color:#f59e0b;"></i> جامعات خاصة</div>
+                <div class="univ-grid">
+                    <a href="https://www.bue.edu.eg/" target="_blank">الجامعة البريطانية (BUE)</a>
+                    <a href="https://www.guc.edu.eg/" target="_blank">الجامعة الألمانية (GUC)</a>
+                    <a href="https://www.miuegypt.edu.eg/" target="_blank">جامعة مصر الدولية (MIU)</a>
+                    <a href="https://www.msa.edu.eg/" target="_blank">جامعة أكتوبر للعلوم (MSA)</a>
+                    <a href="https://www.fue.edu.eg/" target="_blank">جامعة المستقبل (FUE)</a>
+                    <a href="https://nu.edu.eg/" target="_blank">جامعة النيل (NU)</a>
+                    <a href="https://www.buc.edu.eg/" target="_blank">جامعة بدر (BUC)</a>
+                    <a href="https://www.ecu.edu.eg/" target="_blank">جامعة إيجبت للعلوم</a>
+                    <a href="https://www.hue.edu.eg/" target="_blank">جامعة هليوبوليس</a>
+                    <a href="https://www.sue.edu.eg/" target="_blank">جامعة سيناء</a>
+                    <a href="https://www.alamein.edu.eg/" target="_blank">جامعة العلمين الدولية</a>
+                    <a href="https://www.giu.edu.eg/" target="_blank">الجامعة الألمانية الدولية (GIU)</a>
+                    <a href="https://www.ksu.edu.eg/" target="_blank">جامعة الملك سلمان</a>
+                    <a href="https://www.just.edu.eg/" target="_blank">جامعة الجلالة</a>
+                    <a href="https://www.6october.edu.eg/" target="_blank">جامعة 6 أكتوبر</a>
+                    <a href="https://www.must.edu.eg/" target="_blank">جامعة مصر للعلوم</a>
+                    <a href="https://www.mti.edu.eg/" target="_blank">الجامعة الحديثة للتكنولوجيا</a>
+                    <a href="https://horus.edu.eg/" target="_blank">جامعة حورس</a>
+                    <a href="https://www.deltauniv.edu.eg/" target="_blank">جامعة الدلتا للعلوم</a>
+                    <a href="https://nmu.edu.eg/" target="_blank">جامعة المنصورة الجديدة</a>
+                    <a href="https://www.cu.edu.eg/" target="_blank">جامعة الأهرام الكندية</a>
+                    <a href="https://www.fue.edu.eg/" target="_blank">جامعة فاروس</a>
+                    <a href="https://www.nubian.edu.eg/" target="_blank">الجامعة المصرية الروسية</a>
+                    <a href="https://www.drya.edu.eg/" target="_blank">جامعة دراية</a>
+                    <a href="https://www.gizajadida.edu.eg/" target="_blank">جامعة الجيزة الجديدة</a>
+                    <a href="https://www.salam.edu.eg/" target="_blank">جامعة السلام</a>
+                    <a href="https://www.salhia.edu.eg/" target="_blank">جامعة الصالحية الجديدة</a>
+                    <a href="https://www.sphinx.edu.eg/" target="_blank">جامعة سفنكس</a>
+                    <a href="https://www.badr.edu.eg/" target="_blank">جامعة بدر بأسيوط</a>
+                    <a href="https://www.merit.edu.eg/" target="_blank">جامعة ميريت</a>
+                    <a href="https://www.mayou.edu.eg/" target="_blank">جامعة مايو</a>
+                    <a href="https://www.ebdaa.edu.eg/" target="_blank">جامعة الابتكار</a>
+                    <a href="https://www.reyada.edu.eg/" target="_blank">جامعة الريادة</a>
+                    <a href="https://www.almadina.edu.eg/" target="_blank">جامعة المدينة</a>
+                    <a href="https://www.elhayat.edu.eg/" target="_blank">جامعة الحياة</a>
+                    <a href="https://www.lotus.edu.eg/" target="_blank">جامعة اللوتس</a>
+                    <a href="https://www.wadielnile.edu.eg/" target="_blank">جامعة وادى النيل</a>
+                    <a href="https://www.badia.edu.eg/" target="_blank">جامعة باديا</a>
+                    <a href="https://www.obour.edu.eg/" target="_blank">جامعة العبور</a>
+                    <a href="https://www.ecsalem.edu.eg/" target="_blank">الجامعة المصرية بالعلمين</a>
+                    <a href="https://www.rasheed.edu.eg/" target="_blank">جامعة رشيد</a>
+                    <a href="https://www.eastcapital.edu.eg/" target="_blank">جامعة شرق العاصمة</a>
+                    <a href="https://www.memphis.edu.eg/" target="_blank">جامعة ممفيس</a>
+                    <a href="https://www.neco.edu.eg/" target="_blank">جامعة مصر الجديدة</a>
+                    <a href="https://www.ngu.edu.eg/" target="_blank">جامعة النهضة</a>
+                </div>
+
+                <!-- جامعات أهلية -->
+                <div class="univ-category-title"><i class="fas fa-building" style="color:#2563eb;"></i> جامعات أهلية</div>
+                <div class="univ-grid">
+                    <a href="https://www.mans.edu.eg/" target="_blank">جامعة المنصورة الأهلية</a>
+                    <a href="https://www.aun.edu.eg/" target="_blank">جامعة أسيوط الأهلية</a>
+                    <a href="https://www.zu.edu.eg/" target="_blank">جامعة الزقازيق الأهلية</a>
+                    <a href="https://www.helwan.edu.eg/" target="_blank">جامعة حلوان الأهلية</a>
+                    <a href="https://www.bsu.edu.eg/" target="_blank">جامعة بنها الأهلية</a>
+                    <a href="https://www.svu.edu.eg/" target="_blank">جامعة جنوب الوادي الأهلية</a>
+                    <a href="https://www.damanhour.edu.eg/" target="_blank">جامعة دمنهور الأهلية</a>
+                    <a href="https://www.portsaid.edu.eg/" target="_blank">جامعة بورسعيد الأهلية</a>
+                    <a href="https://www.luxor.edu.eg/" target="_blank">جامعة الأقصر الأهلية</a>
+                    <a href="https://www.minia.edu.eg/" target="_blank">جامعة المنيا الأهلية</a>
+                    <a href="https://www.sohag.edu.eg/" target="_blank">جامعة سوهاج الأهلية</a>
+                    <a href="https://www.fayoum.edu.eg/" target="_blank">جامعة الفيوم الأهلية</a>
+                    <a href="https://www.benisuef.edu.eg/" target="_blank">جامعة بني سويف الأهلية</a>
+                    <a href="https://isma.edu.eg/" target="_blank">جامعة الإسماعيلية الجديدة</a>
+                    <a href="https://www.menofia.edu.eg/" target="_blank">جامعة المنوفية الأهلية</a>
+                    <a href="https://www.eelu.edu.eg/" target="_blank">الجامعة المصرية للتعلم الإلكتروني</a>
+                    <a href="https://www.ufe.edu.eg/" target="_blank">الجامعة الفرنسية في مصر</a>
+                </div>
+
+                <!-- خدمات جامعة المنصورة -->
+                <div class="univ-category-title"><i class="fas fa-laptop" style="color:#16a34a;"></i> خدمات جامعة المنصورة</div>
+                <div class="univ-grid">
+                    <a href="https://www.mans.edu.eg/" target="_blank">🏛️ البوابة الرئيسية</a>
+                    <a href="https://www.mans.edu.eg/" target="_blank">📚 نظام ابن الهيثم - الخدمات الإلكترونية</a>
+                    <a href="https://www.mans.edu.eg/" target="_blank">🧑‍🎓 نظام ابن الهيثم - شئون الطلاب</a>
+                    <a href="https://www.mans.edu.eg/" target="_blank">👨‍🏫 نظام ابن الهيثم - شئون العاملين</a>
+                    <a href="https://www.mans.edu.eg/" target="_blank">🎓 نظام ابن الهيثم - الدراسات العليا</a>
+                    <a href="https://www.mans.edu.eg/" target="_blank">📜 نظام ابن الهيثم - الخريجين</a>
+                    <a href="https://www.mans.edu.eg/" target="_blank">📊 نظام ابن الهيثم - الإدارة الإلكترونية</a>
+                    <a href="https://tansik.emis.gov.eg/" target="_blank">📋 بوابة التنسيق الإلكتروني</a>
+                    <a href="https://nmu.edu.eg/" target="_blank">🏛️ جامعة المنصورة الجديدة - بوابة الخدمات</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+        سجل الخدمات
+        ============================================================ -->
+        <div class="log-section" id="logSection">
+            <div class="log-header">
+                <h3><i class="fas fa-history"></i> سجل الخدمات <span class="badge-count" id="logCount">0</span></h3>
+                <div class="log-actions">
+                    <button class="btn-daily-report" onclick="openDailyReport()"><i class="fas fa-chart-bar"></i> جرد اليوم</button>
+                    <button class="btn-refresh-log" onclick="loadLogs()"><i class="fas fa-sync-alt"></i> تحديث</button>
+                    <button class="btn-export-log" onclick="exportLogs()"><i class="fas fa-download"></i> تصدير</button>
+                    <button class="btn-delete-log" onclick="openDeleteModal()"><i class="fas fa-trash"></i> حذف السجل</button>
+                </div>
+            </div>
+            <div class="log-table-wrap">
+                <table class="log-table" id="logTable">
+                    <thead><tr><th>#</th><th>التاريخ</th><th>الوقت</th><th>الخدمة</th><th>السعر</th></tr></thead>
+                    <tbody id="logBody"><tr><td colspan="5" class="empty-msg">لا توجد خدمات مسجلة</td></tr></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">© 2026 منصة خدماتي • مصر — نظام إدارة الخدمات المتكاملة</div>
+    </div>
+
+    <!-- ============================================================
+    النوافذ المنبثقة
+    ============================================================ -->
+    <div class="pricing-modal" id="pricingModal">
+        <div class="pricing-box">
+            <div class="pricing-header"><h3><i class="fas fa-tags"></i> قائمة التسعير</h3><button class="close-pricing" onclick="closePricing()">&times;</button></div>
+            <div id="pricingList"></div>
+            <div class="add-service-area">
+                <input type="text" id="newServiceName" placeholder="اسم الخدمة" />
+                <input type="number" id="newServicePrice" placeholder="السعر" style="max-width:120px;" />
+                <select id="newServiceCategory">
+                    <option value="official">رسمي</option>
+                    <option value="whatsapp">واتساب</option>
+                </select>
+                <button onclick="addNewService()"><i class="fas fa-plus"></i> إضافة</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-modal" id="reportModal">
+        <div class="report-box">
+            <div class="report-header"><h3><i class="fas fa-chart-bar"></i> جرد اليوم</h3><button class="close-report" onclick="closeReport()">&times;</button></div>
+            <div id="reportContent"><div class="report-summary" id="reportSummary"></div><div class="report-details" id="reportDetails"></div></div>
+        </div>
+    </div>
+
+    <div class="delete-modal" id="deleteModal">
+        <div class="del-box">
+            <h3><i class="fas fa-exclamation-triangle"></i> تأكيد الحذف</h3>
+            <p>أدخل كود التأكيد لحذف السجل</p>
+            <input type="password" id="deleteCodeInput" maxlength="6" placeholder="••••••" />
+            <div class="del-actions">
+                <button class="del-cancel" onclick="closeDeleteModal()">إلغاء</button>
+                <button class="del-confirm" onclick="confirmDeleteLogs()">حذف الكل</button>
+            </div>
+            <div class="del-error" id="deleteError">⚠️ كود التأكيد غير صحيح</div>
+        </div>
+    </div>
+
+    <div class="pricing-modal" id="calcModal" style="z-index:9999;">
+        <div class="pricing-box" style="max-width:380px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3><i class="fas fa-calculator"></i> آلة حاسبة</h3>
+                <button onclick="closeCalculator()" style="background:none;border:none;font-size:28px;cursor:pointer;color:#94a3b8;">&times;</button>
+            </div>
+            <input id="calcDisplay" readonly value="0" />
+            <div class="calc-grid">
+                <button onclick="calcInput('7')">7</button><button onclick="calcInput('8')">8</button><button onclick="calcInput('9')">9</button><button class="op" onclick="calcInput('/')">÷</button>
+                <button onclick="calcInput('4')">4</button><button onclick="calcInput('5')">5</button><button onclick="calcInput('6')">6</button><button class="op" onclick="calcInput('*')">×</button>
+                <button onclick="calcInput('1')">1</button><button onclick="calcInput('2')">2</button><button onclick="calcInput('3')">3</button><button class="op" onclick="calcInput('-')">−</button>
+                <button onclick="calcInput('0')">0</button><button onclick="calcInput('.')">.</button><button class="clr" onclick="calcClear()">C</button><button class="op" onclick="calcInput('+')">+</button>
+                <button class="eq" onclick="calcResult()">=</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-message" id="toastMessage"><i class="fas fa-check-circle"></i><span id="toastText">تم الحفظ بنجاح</span></div>
+
+    <!-- ============================================================
+    جافا سكريبت
+    ============================================================ -->
+    <script>
+        const VALID_USER = '01032720236';
+        const VALID_PASS = 'Mm01032720236@@';
+        const DELETE_CODE = '015593';
+        let servicesData = [];
+        let logsData = [];
+        let toastTimeout = null;
+        let calcValue = '0';
+
+        function checkSession() {
+            if (sessionStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('active');
+                loadServices();
+                loadLogs();
+                loadPricingList();
+                return true;
+            }
+            return false;
+        }
+
+        function handleLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            const error = document.getElementById('loginError');
+            if (user === VALID_USER && pass === VALID_PASS) {
+                error.classList.remove('show');
+                sessionStorage.setItem('isLoggedIn', 'true');
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('active');
+                loadServices();
+                loadLogs();
+                loadPricingList();
+                showToast('✅ مرحباً بك في منصة خدماتي', 'success');
+            } else {
+                error.classList.add('show');
+                document.getElementById('loginPass').value = '';
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('loginScreen').classList.contains('hidden')) {
+                handleLogin();
+            }
+        });
+
+        function handleLogout() {
+            if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+                sessionStorage.removeItem('isLoggedIn');
+                document.getElementById('mainContent').classList.remove('active');
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('loginPass').value = '';
+                document.getElementById('loginError').classList.remove('show');
+                showToast('👋 تم تسجيل الخروج', '');
+            }
+        }
+
+        function showToast(message, type = '') {
+            const toast = document.getElementById('toastMessage');
+            document.getElementById('toastText').textContent = message;
+            toast.className = 'toast-message show ' + type;
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function toggleUniversities() {
+            const content = document.getElementById('univContent');
+            content.classList.toggle('active');
+            document.querySelector('.toggle-univ-btn').innerHTML = content.classList.contains('active') ?
+                '<i class="fas fa-chevron-up" id="univToggleIcon"></i> إخفاء الجامعات' :
+                '<i class="fas fa-chevron-down" id="univToggleIcon"></i> عرض الجامعات';
+        }
+
+        // ============================================================
+        // تحميل الخدمات (نفس نظام الجامعات)
+        // ============================================================
+
+        function loadServices() {
+            const container = document.getElementById('servicesContainer');
+
+            // الخدمات مصنفة زي الجامعات بالضبط
+            const services = [{
+                category: 'خدمات رسمية',
+                icon: 'fa-building',
+                items: [
+                    { name: 'منصة الكهرباء', price: 50, link: 'https://eservices.eehc.gov.eg/', desc: 'خدمات فواتير الكهرباء والاستعلامات',
+                        color: 'img-blue', icon: 'fa-bolt' },
+                    { name: 'تصريح سفر - الحربية', price: 100, link: 'https://tagcand.mod.gov.eg/',
+                        desc: 'موقع التجنيد والخدمة العسكرية', color: 'img-green', icon: 'fa-shield-alt' },
+                    { name: 'وزارة الداخلية', price: 80, link: 'https://moi.gov.eg/', desc: 'تصاريح السفر والجوازات',
+                        color: 'img-purple', icon: 'fa-id-card' },
+                    { name: 'السير الذاتية - Canva', price: 0, link: 'https://www.canva.com/',
+                        desc: 'تصميم سير ذاتية احترافية', color: 'img-indigo', icon: 'fa-file-alt' },
+                    { name: 'الوظائف الحكومية', price: 60, link: 'https://jobs.caoa.gov.eg/',
+                        desc: 'بوابة التوظيف الحكومي', color: 'img-teal', icon: 'fa-building' },
+                    { name: 'الخدمات المتكاملة POD', price: 40, link: 'https://pod.mohp.gov.eg/Inquery.aspx',
+                        desc: 'الخدمات المتكاملة للمواطنين', color: 'img-cyan', icon: 'fa-network-wired' },
+                    { name: 'تكافل وكرامة', price: 30, link: 'http://karama.smcegy.com/karama/?par=12&id=0',
+                        desc: 'المجالس الطبية المتخصصة', color: 'img-rose', icon: 'fa-hand-holding-heart' },
+                    { name: 'عيادات التأمين الصحي', price: 30, link: 'https://reserv.hiocdis.org/hioclinicreservation.aspx',
+                        desc: 'حجز مواعيد العيادات', color: 'img-red', icon: 'fa-user-md' },
+                    { name: 'سيارات المعاقين', price: 50, link: 'https://car.smcegy.com/register.aspx',
+                        desc: 'حجز وتجديد سيارات ذوي الهمم', color: 'img-orange', icon: 'fa-wheelchair' },
+                    { name: 'ضباط الاحتياط', price: 70, link: 'https://officersaffairs.mod.gov.eg/ServicesApplication.aspx?serv=2',
+                        desc: 'خدمات ضباط الاحتياط الإلكترونية', color: 'img-pink', icon: 'fa-star' },
+                    { name: 'الكليات العسكرية', price: 60, link: 'https://tansiq.mod.gov.eg/',
+                        desc: 'التنسيق للكليات الحربية', color: 'img-amber', icon: 'fa-shield-alt' },
+                    { name: 'الحساب الموحد للطالب', price: 20, link: 'https://office365.emis.gov.eg/',
+                        desc: 'خدمات Office 365 للطلاب', color: 'img-lime', icon: 'fa-envelope' },
+                    { name: 'الثانوية العامة', price: 25, link: 'https://tansiksec.emis.gov.eg/',
+                        desc: 'خدمات التنسيق والنتائج', color: 'img-blue', icon: 'fa-school' }
+                ]
+            }, {
+                category: 'خدمات عبر واتساب',
+                icon: 'fa-whatsapp',
+                items: [
+                    { name: 'خدمة وورد', price: 150, link: 'https://wa.me/2010xxxxxxxx?text=أريد%20خدمة%20ورد',
+                        desc: 'كتابة وتنسيق مستندات Word', color: 'img-blue', icon: 'fa-file-word' },
+                    { name: 'خدمة إكسيل', price: 150, link: 'https://wa.me/2010xxxxxxxx?text=أريد%20خدمة%20إكسيل',
+                        desc: 'جداول بيانات وتحليلات', color: 'img-green', icon: 'fa-file-excel' },
+                    { name: 'خدمة باوربوينت', price: 200, link: 'https://wa.me/2010xxxxxxxx?text=أريد%20خدمة%20باوربوينت',
+                        desc: 'عروض تقديمية احترافية', color: 'img-red', icon: 'fa-file-powerpoint' },
+                    { name: 'تساهيل للسفر', price: 250, link: 'https://wa.me/2010xxxxxxxx?text=أريد%20خدمة%20تساهيل',
+                        desc: 'حجز فنادق وبرامج سياحية', color: 'img-teal', icon: 'fa-umbrella-beach' },
+                    { name: 'إنجاز للسفر', price: 300, link: 'https://wa.me/2010xxxxxxxx?text=أريد%20خدمة%20إنجاز',
+                        desc: 'إنهاء إجراءات السفر', color: 'img-orange', icon: 'fa-rocket' },
+                    { name: 'حجز الطيران', price: 200, link: 'https://wa.me/2010xxxxxxxx?text=أريد%20حجز%20طيران',
+                        desc: 'حجز تذاكر طيران', color: 'img-cyan', icon: 'fa-fighter-jet' }
+                ]
+            }];
+
+            let html = '';
+            services.forEach(cat => {
+                html += `
+                    <h2 class="section-title">
+                        <i class="fas ${cat.icon}"></i> ${cat.category}
+                    </h2>
+                    <div class="services-grid">
+                `;
+                cat.items.forEach(service => {
+                    const priceDisplay = service.price ? `${service.price} ج.م` : 'مجاني';
+                    const isWhatsapp = cat.category === 'خدمات عبر واتساب';
+                    const btnClass = isWhatsapp ? 'btn-whatsapp' : '';
+                    const btnText = isWhatsapp ? '<i class="fab fa-whatsapp"></i> بدء الخدمة' :
+                        'بدء الخدمة <i class="fas fa-arrow-left"></i>';
+
+                    html += `
+                        <div class="service-card">
+                            <div class="card-image ${service.color}">
+                                <i class="fas ${service.icon}"></i>
+                                <span class="overlay-text">${isWhatsapp ? 'واتساب' : 'رسمي'}</span>
+                            </div>
+                            <h3>${service.name}</h3>
+                            <div class="price-tag">💰 ${priceDisplay}</div>
+                            <p>${service.desc || ''}</p>
+                            <button class="btn-service ${btnClass}" onclick="startService('${service.name}', ${service.price || 0}, '${service.link}')">
+                                ${btnText}
+                            </button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // بدء الخدمة (نفس نظام الجامعات)
+        // ============================================================
+
+        function startService(serviceName, price, link) {
+            const now = new Date();
+            const logEntry = {
+                date: now.toLocaleDateString('ar-EG'),
+                time: now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                timestamp: now.getTime(),
+                service: serviceName,
+                price: price || 0
+            };
+            logsData.push(logEntry);
+            localStorage.setItem('logsData', JSON.stringify(logsData));
+            loadLogs();
+            showToast(`✅ جاري التوجيه إلى "${serviceName}"`, 'success');
+            setTimeout(() => { window.open(link, '_blank'); }, 400);
+            return true;
+        }
+
+        // ============================================================
+        // باقي الدوال (نفس الكود السابق)
+        // ============================================================
+
+        function loadLogs() {
+            const tbody = document.getElementById('logBody');
+            const count = document.getElementById('logCount');
+            const saved = localStorage.getItem('logsData');
+            logsData = saved ? JSON.parse(saved) : [];
+            if (logsData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="empty-msg">📭 لا توجد خدمات مسجلة</td></tr>`;
+                count.textContent = '0';
+                return;
+            }
+            const sorted = [...logsData].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            let html = '',
+                total = 0;
+            sorted.forEach((log, i) => {
+                const price = log.price || 0;
+                total += price;
+                html +=
+                    `<tr><td>${i+1}</td><td>${log.date || '-'}</td><td>${log.time || '-'}</td><td>${log.service || '-'}</td><td>${price} ج.م</td></tr>`;
+            });
+            html +=
+                `<tr style="font-weight:700;background:#f1f5f9;"><td colspan="4" style="text-align:left;">إجمالي اليوم</td><td>${total} ج.م</td></tr>`;
+            tbody.innerHTML = html;
+            count.textContent = sorted.length;
+        }
+
+        function openPricing() { document.getElementById('pricingModal').classList.add('active');
+            loadPricingList(); }
+
+        function closePricing() { document.getElementById('pricingModal').classList.remove('active'); }
+
+        function loadPricingList() {
+            const container = document.getElementById('pricingList');
+            const saved = localStorage.getItem('servicesData');
+            if (saved) { servicesData = JSON.parse(saved); } else { servicesData = []; }
+            if (servicesData.length === 0) { container.innerHTML =
+                    '<p style="color:#94a3b8;text-align:center;padding:20px;">لا توجد خدمات مسجلة</p>'; return; }
+            let html = '';
+            servicesData.forEach(service => {
+                html += `
+                    <div class="pricing-item">
+                        <span class="service-name">${service.name}</span>
+                        <input type="number" class="service-price-input" id="priceInput_${service.id}" value="${service.price || 0}" step="0.01" />
+                        <div class="price-actions">
+                            <button class="save-price" onclick="updateServicePrice(${service.id})"><i class="fas fa-save"></i> حفظ</button>
+                            <button class="reset-price" onclick="deleteService(${service.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function updateServicePrice(serviceId) {
+            const input = document.getElementById(`priceInput_${serviceId}`);
+            if (!input) return;
+            const code = prompt('🔒 أدخل كود التأكيد لتغيير السعر:');
+            if (code !== DELETE_CODE) { showToast('❌ كود غير صحيح', 'error'); return; }
+            const price = parseFloat(input.value);
+            if (isNaN(price) || price < 0) { showToast('⚠️ سعر غير صحيح', 'error'); return; }
+            const service = servicesData.find(s => s.id === serviceId);
+            if (service) {
+                service.price = price;
+                localStorage.setItem('servicesData', JSON.stringify(servicesData));
+                showToast(`✅ تم تحديث سعر "${service.name}"`, 'success');
+                loadPricingList();
+            }
+        }
+
+        function deleteService(serviceId) {
+            const service = servicesData.find(s => s.id === serviceId);
+            if (!service) return;
+            const code = prompt('🔒 أدخل كود التأكيد لحذف الخدمة:');
+            if (code !== DELETE_CODE) { showToast('❌ كود غير صحيح', 'error'); return; }
+            if (!confirm(`⚠️ هل أنت متأكد من حذف "${service.name}"؟`)) return;
+            servicesData = servicesData.filter(s => s.id !== serviceId);
+            localStorage.setItem('servicesData', JSON.stringify(servicesData));
+            showToast(`✅ تم حذف "${service.name}"`, 'success');
+            loadPricingList();
+        }
+
+        function addNewService() {
+            const name = document.getElementById('newServiceName').value.trim();
+            const price = parseFloat(document.getElementById('newServicePrice').value);
+            const category = document.getElementById('newServiceCategory').value;
+            if (!name) { showToast('⚠️ أدخل اسم الخدمة', 'error'); return; }
+            if (isNaN(price) || price < 0) { showToast('⚠️ سعر غير صحيح', 'error'); return; }
+            const newId = servicesData.length > 0 ? Math.max(...servicesData.map(s => s.id)) + 1 : 1;
+            servicesData.push({
+                id: newId,
+                name,
+                price,
+                category,
+                type: category === 'whatsapp' ? 'whatsapp' : 'official',
+                icon: 'fa-cube',
+                color: 'img-blue',
+                description: 'تمت الإضافة يدوياً',
+                link: category === 'whatsapp' ? 'https://wa.me/2010xxxxxxxx?text=أريد%20خدمة%20' + encodeURIComponent(name) :
+                    '#'
+            });
+            localStorage.setItem('servicesData', JSON.stringify(servicesData));
+            document.getElementById('newServiceName').value = '';
+            document.getElementById('newServicePrice').value = '';
+            showToast(`✅ تمت إضافة "${name}"`, 'success');
+            loadPricingList();
+        }
+
+        function openDailyReport() {
+            document.getElementById('reportModal').classList.add('active');
+            const today = new Date().toLocaleDateString('ar-EG');
+            const summary = document.getElementById('reportSummary');
+            const details = document.getElementById('reportDetails');
+            const todayLogs = logsData.filter(log => log.date === today);
+            if (todayLogs.length === 0) {
+                summary.innerHTML = `<div class="summary-item">📭 لا توجد خدمات اليوم</div>`;
+                details.innerHTML = '';
+                return;
+            }
+            let total = 0,
+                serviceCount = {};
+            todayLogs.forEach(log => { total += log.price || 0;
+                serviceCount[log.service] = (serviceCount[log.service] || 0) + 1; });
+            summary.innerHTML =
+                `<div class="summary-item"><span>📅 التاريخ:</span> <span>${today}</span></div><div class="summary-item"><span>📊 عدد الخدمات:</span> <span>${todayLogs.length}</span></div><div class="summary-item total"><span>💰 إجمالي الإيرادات:</span> <span>${total} ج.م</span></div>`;
+            let detailHtml = `<table><thead><tr><th>الخدمة</th><th>العدد</th><th>الإجمالي</th></tr></thead><tbody>`;
+            for (const [service, count] of Object.entries(serviceCount)) {
+                const price = servicesData.find(s => s.name === service)?.price || 0;
+                detailHtml += `<tr><td>${service}</td><td>${count}</td><td>${price * count} ج.م</td></tr>`;
+            }
+            detailHtml += `</tbody></table>`;
+            details.innerHTML = detailHtml;
+        }
+
+        function closeReport() { document.getElementById('reportModal').classList.remove('active'); }
+
+        function exportLogs() {
+            if (logsData.length === 0) { showToast('📭 لا توجد سجلات', 'error'); return; }
+            let csv = 'التاريخ,الوقت,الخدمة,السعر\n';
+            logsData.forEach(log => { csv +=
+                    `"${log.date || '-'}","${log.time || '-'}","${log.service || '-'}",${log.price || 0}\n`; });
+            const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `سجل_الخدمات_${new Date().toLocaleDateString('ar-EG')}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('✅ تم التصدير', 'success');
+        }
+
+        function openDeleteModal() {
+            document.getElementById('deleteModal').classList.add('active');
+            document.getElementById('deleteCodeInput').value = '';
+            document.getElementById('deleteError').classList.remove('show');
+        }
+
+        function closeDeleteModal() { document.getElementById('deleteModal').classList.remove('active'); }
+
+        function confirmDeleteLogs() {
+            const code = document.getElementById('deleteCodeInput').value.trim();
+            if (code !== DELETE_CODE) {
+                document.getElementById('deleteError').classList.add('show');
+                document.getElementById('deleteCodeInput').value = '';
+                setTimeout(() => document.getElementById('deleteError').classList.remove('show'), 3000);
+                return;
+            }
+            logsData = [];
+            localStorage.setItem('logsData', JSON.stringify(logsData));
+            showToast('✅ تم حذف السجلات', 'success');
+            closeDeleteModal();
+            loadLogs();
+        }
+
+        function openCalculator() { document.getElementById('calcModal').classList.add('active');
+            document.getElementById('calcDisplay').value = '0';
+            calcValue = '0'; }
+
+        function closeCalculator() { document.getElementById('calcModal').classList.remove('active'); }
+
+        function calcInput(val) {
+            const display = document.getElementById('calcDisplay');
+            if (calcValue === '0' && val !== '.' && val !== '+' && val !== '-' && val !== '*' && val !== '/') calcValue =
+                val;
+            else calcValue += val;
+            display.value = calcValue;
+        }
+
+        function calcClear() { calcValue = '0';
+            document.getElementById('calcDisplay').value = '0'; }
+
+        function calcResult() {
+            try {
+                const result = eval(calcValue.replace(/×/g, '*').replace(/÷/g, '/'));
+                calcValue = String(result);
+                document.getElementById('calcDisplay').value = calcValue;
+            } catch (e) {
+                document.getElementById('calcDisplay').value = 'خطأ';
+                setTimeout(() => { calcValue = '0';
+                    document.getElementById('calcDisplay').value = '0'; }, 1000);
+            }
+        }
+
+        document.querySelectorAll('.pricing-modal, .report-modal, .delete-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('active'); });
+        });
+
+        // تحميل البيانات
+        const saved = localStorage.getItem('logsData');
+        if (saved) logsData = JSON.parse(saved);
+        document.addEventListener('DOMContentLoaded', checkSession);
+
+        console.log('🚀 النظام جاهز!');
+        console.log('📱 المستخدم: 01032720236');
+        console.log('🔑 الباسورد: Mm01032720236@@');
+        console.log('🔒 كود الحذف: 015593');
+        console.log('🏛️ جامعات خاصة: 44 جامعة');
+        console.log('🏛️ جامعات أهلية: 17 جامعة');
+        console.log('📚 خدمات: 19 خدمة');
+    </script>
+
+</body>
+</html>
